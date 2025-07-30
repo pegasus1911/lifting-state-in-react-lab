@@ -1,0 +1,93 @@
+// src/App.jsx
+import './App.css';
+import { useState } from 'react';
+
+const availableIngredients = [
+  { name: 'Kaiser Bun', color: 'saddlebrown' },
+  { name: 'Sesame Bun', color: 'sandybrown' },
+  { name: 'Gluten Free Bun', color: 'peru' },
+  { name: 'Lettuce Wrap', color: 'olivedrab' },
+  { name: 'Beef Patty', color: '#3F250B' },
+  { name: 'Soy Patty', color: '#3F250B' },
+  { name: 'Black Bean Patty', color: '#3F250B' },
+  { name: 'Chicken Patty', color: 'burlywood' },
+  { name: 'Lettuce', color: 'lawngreen' },
+  { name: 'Tomato', color: 'tomato' },
+  { name: 'Bacon', color: 'maroon' },
+  { name: 'Onion', color: 'lightyellow' },
+  { name: 'Cheddar Cheese', color: '#FDE18B' },
+  { name: 'Swiss Cheese', color: '#F1E1A8' },
+];
+
+const App = () => {
+  const [stack, setStack] = useState([]);
+
+  const addToBurger = (ingredient) => {
+    setStack([ingredient, ...stack]); // adds to the top
+  };
+
+  const removeFromBurger = (indexToRemove) => {
+    setStack(stack.filter((_, i) => i !== indexToRemove));
+  };
+
+  return (
+    <main style={{ fontFamily: 'Arial', padding: '1rem' }}>
+      <h1>Burger Stacker</h1>
+      <section style={{ display: 'flex', gap: '2rem' }}>
+        {/* Ingredient List */}
+        <div style={{ width: '45%' }}>
+          <h2>Ingredients</h2>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {availableIngredients.map((ingredient, index) => (
+              <li
+                key={index}
+                style={{
+                  backgroundColor: ingredient.color,
+                  padding: '0.5rem',
+                  margin: '0.5rem 0',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}
+              >
+                {ingredient.name}
+                <button onClick={() => addToBurger(ingredient)}>+</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Burger Stack */}
+        <div style={{ width: '45%' }}>
+          <h2>Your Burger</h2>
+          {stack.length === 0 ? (
+            <p>No Ingredients</p>
+          ) : (
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              {stack.map((ingredient, index) => (
+                <li
+                  key={index}
+                  style={{
+                    backgroundColor: ingredient.color,
+                    padding: '0.5rem',
+                    margin: '0.5rem 0',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  {ingredient.name}
+                  <button onClick={() => removeFromBurger(index)}>X</button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+    </main>
+  );
+};
+
+export default App;
